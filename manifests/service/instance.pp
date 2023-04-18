@@ -35,7 +35,6 @@ define restic::service::instance (
     'User'      => $user,
     'Group'     => $group,
     'ExecStart' => $commands,
-    # TODO: AmbientCapabilities=CAP_DAC_READ_SEARCH
   } + $service_entry
 
   systemd::manage_dropin { "restic-${service}-${repository}.service":

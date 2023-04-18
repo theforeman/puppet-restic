@@ -5,7 +5,7 @@ fixtures:
   forge_modules:
     systemd:
       repo: 'puppet/systemd'
-      ref: '4.1.0'
+      ref: '4.2.0'
     concat:
       repo: 'puppetlabs/concat'
       ref: '7.2.0'

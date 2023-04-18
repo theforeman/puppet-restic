@@ -10,7 +10,7 @@
   "dependencies": [
     {
       "name": "puppet/systemd",
-      "version_requirement": ">= 4.1.0"
+      "version_requirement": ">= 4.2.0"
     },
     {
       "name": "puppetlabs/concat",

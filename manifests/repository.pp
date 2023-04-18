@@ -19,6 +19,10 @@
 # @param backup_exit3_success
 #   Consider restic's exit code 3 as success. https://restic.readthedocs.io/en/latest/040_backup.html#exit-status-codes
 #
+# @param backup_cap_dac_read_search
+#   Grant the backup service the CAP_DAC_READ_SEARCH capability, which
+#   effectively means a non-privileged user can read all files like root can.
+#
 # @param binary
 #   Default path to the Restic binary
 #
@@ -104,6 +108,7 @@ define restic::repository (
   Optional[Variant[Array[String[1]],String[1]]] $backup_post_cmd      = undef,
   Optional[String[1]]                           $backup_timer         = undef,
   Optional[Boolean]                             $backup_exit3_success = undef,
+  Boolean                                       $backup_cap_dac_read_search = false,
   Optional[Stdlib::Absolutepath]                $binary               = undef,
   Optional[String]                              $bucket               = undef,
   Optional[Boolean]                             $enable_backup        = undef,
@@ -249,7 +254,8 @@ define restic::repository (
       'BACKUP_FLAGS' => join($_backup_flags + [$_backup_path], ' '),
     },
     service_entry => {
-      'SuccessExitStatus' => if $_backup_exit3_success { 3 } else { undef },
+      'AmbientCapabilities' => if $backup_cap_dac_read_search { 'CAP_DAC_READ_SEARCH' } else { undef },
+      'SuccessExitStatus'   => if $_backup_exit3_success { 3 } else { undef },
     },
   }
 
